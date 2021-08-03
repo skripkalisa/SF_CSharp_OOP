@@ -1,0 +1,324 @@
+#!csharp
+
+  public class FirstOOPApp
+  {
+    class ExternalClass
+    {
+      public class ClassInternalClass
+      {
+      }
+
+      struct ClassInternalStruct
+      {
+      }
+    }
+
+    class ExternalStruct
+    {
+      class StructInternalClass
+      {
+      }
+
+      public struct StructInternalStruct
+      {
+      }
+    }
+
+    class Program
+    {
+      static void Main(string[] args)
+      {
+
+        ExternalClass.ClassInternalClass newClass;
+        ExternalStruct.StructInternalStruct newStruct;
+      }
+    }
+  }
+
+#!csharp
+
+static void AddTen(ref int num)
+{
+  num = num + 10;
+}
+var num = 1;
+AddTen(ref num);
+Console.WriteLine(num);
+
+#!csharp
+
+using System;
+
+  class Human
+  {
+    // Поля класса
+    public string name;
+    public int age;
+
+    // Метод класса
+    public void Greetings()
+    {
+      Console.WriteLine("Меня зовут {0}, мне {1}", name, age);
+    }
+    // Конструктор 1
+    public Human()
+    {
+      name = "Неизвестно";
+      age = 20;
+    }
+    // Конструктор 2
+    public Human(string n)
+    {
+      name = n;
+      age = 20;
+    }
+    // Конструктор 3
+    public Human(string n, int a)
+    {
+      name = n;
+      age = a;
+    }
+
+  }
+
+  struct Animal
+  {
+    // Поля структуры
+    // public Animal(string type, string name, int age)
+    // {
+    //   this.type = type;
+    //   this.name = name;
+    //   this.age = age;
+    // }
+    public string type;
+    public string name;
+    public int age;
+
+    // Метод структуры
+    public void Info()
+    {
+      Console.WriteLine("Это {0} по кличке {1}, ему {2}", type, name, age);
+    }
+  }
+  Human human = new Human();
+  human.Greetings();
+
+  human = new Human("Дмитрий");
+  human.Greetings();
+
+  human = new Human("Дмитрий", 23);
+  human.Greetings();
+
+  Animal animal = new Animal { type = "Собака", name = "Вольт", age = 4 };
+  // animal.type = "Собака"; animal.name = "Вольт"; animal.age = 4;
+  animal.Info();
+
+#!csharp
+
+  class Pen
+  {
+
+    public string color;
+    public int cost;
+    public Pen()
+    {
+      color = "Черный";
+      cost = 100;
+    }
+    public Pen(string color, int cost)
+    {
+      this.color = color;
+      this.cost = cost;
+    }
+  }
+      Pen pen1 = new Pen();
+      System.Console.WriteLine(pen1.color +" "+ pen1.cost);
+      Pen pen2 = new Pen("White", 200);
+      System.Console.WriteLine(pen2.color +" "+  pen2.cost);
+
+#!csharp
+
+  class Rectangle
+  {
+    public int a;
+    public int b;
+
+    public Rectangle()
+    {
+      a = 6;
+      b = 4;
+    }
+
+    public Rectangle(int side)
+    {
+      a = side;
+      b = side;
+    }
+
+    public Rectangle(int first, int second)
+    {
+      a = first;
+      b = second;
+    }
+
+    public int Square()
+    {
+      return a * b;
+    }
+  }
+
+  Rectangle sq = new Rectangle(5);
+  Console.WriteLine(sq.Square());
+
+#!markdown
+
+# 6.3. Особенности работы со ссылочными и значимыми типами данных
+
+#!csharp
+
+Human human = null;
+
+if (human != null)
+{
+	Console.WriteLine(human.age);
+}
+
+#!markdown
+
+Данное выражение можно сократить с помощью null-условного оператора (или оператора распространения null).
+
+Для этого следует добавить знак ? к объекту, который может быть равен null, и дальше продолжить использовать его поля:
+
+#!csharp
+
+Human human = null;
+Console.WriteLine(human?.age);
+
+#!csharp
+
+class Employee
+{
+	public Department Department;
+}
+
+class Department
+{
+	public Company Company;
+}
+
+class Company
+{
+	public string Name;
+}
+// поскольку все классы ссылочного типа, нам нужно проверить их на null:
+Employee employee = new Employee();
+string name = employee?.Department?.Company?.Name;
+
+#!markdown
+
+## Также вам пригодится оператор null-объединения, или оператор ??. Данный оператор возвращает левый операнд, если этот операнд не равен null, иначе — правый. При этом левый операнд должен принимать null.
+
+#!csharp
+
+object first = null;
+object second = first ?? 100;
+Human human = null;
+Human newHuman = human ?? new Human("Дмитрий", 23);
+
+#!markdown
+
+Но данный оператор нельзя применять со значимыми типами, поскольку они не могут хранить значение null. То есть такой код выдаст ошибку компиляции:
+
+        int one = 1;
+        int two = one ?? 2;
+
+#!csharp
+
+class Company
+{
+	public string Type;
+	public string Name;
+}
+
+class Department
+{
+	public Company Company;
+	public City City;
+}
+
+class City
+{
+	public string Name;
+}
+
+// class Program
+// {
+// 	static void Main(string[] args)
+// 	{
+//   }
+  
+// }
+static Department GetCurrentDepartment()
+{
+  // logic
+}
+var department = GetCurrentDepartment();
+if (department?.Company?.Type == "Банк" && department?.City?.Name == "Санкт-Петербург")
+{
+Console.WriteLine("У банка {0} есть отделение в Санкт-Петербурге", department?.Company?.Name ?? "Неизвестная компания");
+}
+
+#!csharp
+
+class Bus
+{
+	public int? Load;
+
+public Bus(){
+ 
+}
+public Bus(int load){
+  this.Load = load;
+}
+	public void PrintStatus()
+	{
+	if (Load.HasValue)
+	{
+		Console.WriteLine("В авбтобусе {0} пассажиров", Load.Value);
+	}
+	else
+	{
+		Console.WriteLine("Автобус пуст!");
+	}
+	}
+}
+Bus bus = new Bus();
+Bus bus1 = new Bus(1);
+bus.PrintStatus();
+bus1.PrintStatus();
+
+#!markdown
+
+Автоматические свойства
+
+C# позволяет сокращать запись свойств там, где не нужно использовать особую логику, но нужно управлять доступом к полям. С помощью автоматических свойств можно писать свойства в 1 строку, не уступая по объему объявлению полей:
+
+class User
+{
+	public string Login { get; set; }
+	public int Age { get; set; }
+}
+
+На самом деле тут также создаются поля для свойств, только их создает не программист в коде, а компилятор автоматически генерирует при компиляции.
+
+Преимущество автосвойств в том, что в любой момент времени при необходимости мы можем развернуть автосвойство в обычное свойство, добавить в него какую-то определенную логику.
+
+Несмотря на всю схожесть работы с обычными свойствами, нельзя создать автоматическое свойство только для записи, как в случае со стандартными свойствами.
+
+Автосвойства также могут иметь модификаторы доступа:
+
+class User
+{
+	public string Login { get; private set; }
+	public int Age { private get; set; }
+}

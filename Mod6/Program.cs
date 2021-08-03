@@ -2,11 +2,21 @@
 
 namespace Mod6
 {
-    class Program
+  class Program
+  {
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
+      var num = 1;
+
+      AddTen(ref num);
+
+      Console.WriteLine(num);
+
     }
+
+    static void AddTen(ref int num)
+    {
+      num = num + 10;
+    }
+  }
 }

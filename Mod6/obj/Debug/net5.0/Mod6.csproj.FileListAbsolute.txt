@@ -1,9 +1,5 @@
 /home/az/DEV/DotNET/SF_CSharp/OOP/Mod6/bin/Debug/net5.0/Mod6
-/home/az/DEV/DotNET/SF_CSharp/OOP/Mod6/bin/Debug/net5.0/Mod6.deps.json
-/home/az/DEV/DotNET/SF_CSharp/OOP/Mod6/bin/Debug/net5.0/Mod6.runtimeconfig.json
-/home/az/DEV/DotNET/SF_CSharp/OOP/Mod6/bin/Debug/net5.0/Mod6.runtimeconfig.dev.json
 /home/az/DEV/DotNET/SF_CSharp/OOP/Mod6/bin/Debug/net5.0/Mod6.dll
-/home/az/DEV/DotNET/SF_CSharp/OOP/Mod6/bin/Debug/net5.0/ref/Mod6.dll
 /home/az/DEV/DotNET/SF_CSharp/OOP/Mod6/bin/Debug/net5.0/Mod6.pdb
 /home/az/DEV/DotNET/SF_CSharp/OOP/Mod6/obj/Debug/net5.0/Mod6.csproj.AssemblyReference.cache
 /home/az/DEV/DotNET/SF_CSharp/OOP/Mod6/obj/Debug/net5.0/Mod6.GeneratedMSBuildEditorConfig.editorconfig
@@ -13,4 +9,3 @@
 /home/az/DEV/DotNET/SF_CSharp/OOP/Mod6/obj/Debug/net5.0/Mod6.dll
 /home/az/DEV/DotNET/SF_CSharp/OOP/Mod6/obj/Debug/net5.0/ref/Mod6.dll
 /home/az/DEV/DotNET/SF_CSharp/OOP/Mod6/obj/Debug/net5.0/Mod6.pdb
-/home/az/DEV/DotNET/SF_CSharp/OOP/Mod6/obj/Debug/net5.0/Mod6.genruntimeconfig.cache

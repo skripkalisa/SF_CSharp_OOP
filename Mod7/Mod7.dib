@@ -1,0 +1,1596 @@
+#!markdown
+
+# 7.1. Наследование
+
+#!csharp
+
+class Car
+{
+	public double Fuel;
+
+	public int Mileage;
+
+	public Car()
+	{
+		Fuel = 50;
+		Mileage = 0;
+	}
+
+	public void Move()
+	{
+		// Move a kilometer
+		Mileage++;
+		Fuel -= 0.5;
+	}
+
+	public void FillTheCar()
+	{
+		Fuel = 50;
+	}
+}
+
+enum FuelType
+{
+	Gas = 0,
+	Electricity
+}
+
+class HybridCar : Car
+{
+	public FuelType FuelType;
+
+	public void ChangeFuelType(FuelType type)
+	{
+		FuelType = type;
+	}
+}
+Car car = new HybridCar();
+car.Move();
+Console.WriteLine("Car fuel = "+car.Fuel); 
+Console.WriteLine("Car milage = "+car.Mileage); 
+
+#!csharp
+
+class Employee 
+{
+  public string Name;
+  public int Age;
+  public int Salary;
+}
+
+#!csharp
+
+class Food { }
+
+class Fruit : Food { }
+
+class Vegetable : Food { }
+
+class Apple : Fruit { }
+
+class Banana : Fruit { }
+
+class Pear : Fruit { }
+
+class Potato : Vegetable { }
+
+class Carrot : Vegetable { }
+
+#!csharp
+
+class Obj
+{
+	private string name;
+	private string description;
+
+	public Obj()
+	{
+		Console.WriteLine("Вызван конструктор без параметров");
+	}
+
+	public Obj(string name, string description) : this()
+	{
+		this.name = name;
+		this.description = description;
+    Show();
+	}
+  public void Show(){
+     Console.WriteLine(this.name + " " + this.description);
+  }
+  
+}
+Obj o = new Obj("Jack", "The Ripper");
+// o.Show();
+// Console.WriteLine(o);
+
+#!markdown
+
+## Задание 7.1.6
+
+Реализуйте конструктор, заполняющий поля для следующего класса:
+
+#!csharp
+
+class Obj
+{
+	private string name;
+	private string owner;
+	private int length;
+	private int count;
+
+	public Obj(string name, string ownerName, int objLength, int count)
+	{
+    this.name = name;
+    this.owner = ownerName;
+    this.length = objLength;
+    this.count = count;
+		Show();
+		// ...
+	}
+    public void Show(){
+     Console.WriteLine(this.name + " " + this.owner+ " " + this.length+ " " + this.count);
+  }
+}
+Obj obj = new Obj("Karl", "Clara", 50, 1);
+
+#!markdown
+
+##  Задание 7.1.7
+
+Впишите пропущенный код для параметров в Console.WriteLine вместо ??? так, чтобы в консоли выводилось "Привет, Грег, я интеллектуальный помощник Олег": 
+
+#!csharp
+
+class SmartHelper 
+{
+  private string name;
+
+  public SmartHelper(string name) 
+  {
+    this.name = name;
+  }
+
+  public void Greetings(string name) 
+  {
+    Console.WriteLine("Привет, {0}, я интеллектуальный помощник {1}", name, this.name);
+  }
+}
+// class Program 
+// {
+//   static void Main(string[] args) 
+//   {
+//   }
+  
+// }
+SmartHelper helper = new SmartHelper("Олег");
+helper.Greetings("Грег");
+
+// Console.ReadKey();
+
+#!markdown
+
+## Задание 7.1.10
+
+Для класса DerivedClass создайте 2 конструктора: один, принимающий 2 параметра — name и description, второй — принимающий 3 параметра name, description и counter.
+
+Старайтесь написать оптимальный вариант с учетом полученных знаний.
+
+#!csharp
+
+class BaseClass 
+{
+  protected string Name;
+
+  public BaseClass(string name) 
+  {
+    Name = name;
+  }
+}
+
+class DerivedClass: BaseClass 
+{
+  public string Description;
+
+  public int Counter;
+  public DerivedClass(string name, string description):base(name){
+    // base.Name = name;
+    this.Description = description;
+    Show();
+  }
+  public DerivedClass(string name, string description, int counter):base(name){
+    // base.Name = name;
+    this.Description = description;
+    this.Counter = counter;
+    Show();
+  }
+  void Show(){
+    Console.WriteLine(this.Name + " " + this.Description + " " +this?.Counter);
+  }
+}
+
+DerivedClass dc2 = new DerivedClass("C#", "do-diez");
+// Console.WriteLine(dc2);
+DerivedClass dc3 = new DerivedClass("F#", "fa-diez", 4);
+// Console.WriteLine(dc3);
+
+#!markdown
+
+## Преобразование типов
+
+#!csharp
+
+class Creature { }
+
+class Animal : Creature { }
+
+class Human : Creature { }
+
+class HomoSapiens : Human { }
+
+
+HomoSapiens hs = new HomoSapiens();
+Human human = hs;
+Creature creature = (Creature)human;
+Creature secondCreature = new Animal();
+
+#!markdown
+
+# 7.2. Полиморфизм
+
+#!csharp
+
+class Car 
+{
+  public int Mileage;
+
+  public Car() 
+  {
+    Mileage = 0;
+  }
+
+  public virtual void Move() {
+    Console.WriteLine("Вызван метод Move класса Car");
+    Mileage++;
+  }
+}
+
+enum FuelType 
+{
+  Gas = 0,
+  Electricity
+}
+
+class HybridCar: Car 
+{
+  public FuelType FuelType;
+
+  public double Gas;
+
+  public double Electricity;
+
+  public HybridCar() 
+  {
+    Electricity = 50;
+    Gas = 50;
+  }
+
+  public override void Move() 
+  {
+    Console.WriteLine("Вызван метод Move класса HybridCar");
+    Mileage++;
+
+    switch (FuelType) 
+    {
+    case FuelType.Gas:
+      Gas -= 0.5;
+      break;
+    case FuelType.Electricity:
+      Electricity -= 0.5;
+      break;
+    }
+  }
+
+  public void ChangeFuelType(FuelType type) 
+  {
+    FuelType = type;
+  }
+}
+
+Car car = new Car();
+car.Mileage = 50;
+car.Move();
+Console.WriteLine(car.Mileage);
+
+HybridCar hcar = new HybridCar();
+hcar.Mileage = 100;
+hcar.Move();
+Console.WriteLine(hcar.Mileage);
+HybridCar hybridCar = new HybridCar();
+((Car)hybridCar).Move();// метод класса HybridCar
+
+#!markdown
+
+## Задание 7.2.3
+
+Реализуйте в классе BaseClass виртуальный метод Display с типом void и без параметров, который будет выводить сообщение "Метод класса BaseClass" в консоль, а затем переопределите его в DerivedClass, чтобы он выводил сообщение "Метод класса DerivedClass".
+
+#!csharp
+
+class BaseClass 
+{
+  public virtual void Display() 
+  {
+    Console.WriteLine("Метод класса BaseClass");
+  }
+}
+
+class DerivedClass: BaseClass 
+{
+  public override void Display() 
+  {
+    Console.WriteLine("Метод класса DerivedClass");
+  }
+}
+
+#!markdown
+
+## Переопределение свойств
+Помимо методов могут быть переопределены и свойства, используя такой же синтаксис. Рассмотрим схему классов для классов Citizen (гражданин), CivilServant (госслужащий) и President (президент).
+
+#!csharp
+
+class Citizen 
+{
+  public virtual double Age 
+  {
+    get;
+    set;
+  }
+
+  public void SayYourAge() 
+  {
+    Console.WriteLine("Мне {0} лет", Age);
+  }
+}
+
+class CivilServant: Citizen 
+{
+  private double age;
+  public override double Age 
+  {
+    get 
+    {
+      return age;
+    }
+    set 
+    {
+      if (value < 18) 
+      {
+        Console.WriteLine("Для работы госслужащим гражданин должен быть не младше 18 лет");
+      }
+      else 
+      {
+        age = value;
+      }
+    }
+  }
+}
+
+class President: CivilServant 
+{
+  private double age;
+  public override double Age 
+  {
+    get 
+    {
+      return age;
+    }
+    set 
+    {
+      if (value < 35) 
+      {
+        Console.WriteLine("Для работы президентом гражданин должен быть не младше 35 лет");
+      }
+      else 
+      {
+        age = value;
+      }
+    }
+  }
+}
+
+#!markdown
+
+## Задание 7.2.4
+
+Измените свойство Counter так, чтобы его можно было переопределить в классе DerivedClass. Переопределите данное свойство, ограничив занесения в него чисел меньше 0.
+
+#!csharp
+
+class BaseClass 
+{
+  public virtual int Counter 
+  {
+    get;
+    set;
+  }
+}
+
+class DerivedClass: BaseClass 
+{
+    private int counter;
+  public override int Counter 
+  {
+    get 
+    {
+      return counter;
+    }
+    set 
+    {
+      if (value >= 0) 
+      {
+        counter = value;
+      }
+    }
+  }
+}
+
+#!markdown
+
+## Ключевое слово base
+
+#!csharp
+
+class Car 
+{
+  public int Mileage;
+
+  public Car() 
+  {
+    Mileage = 0;
+  }
+
+  public virtual void Move() {
+    Console.WriteLine("Вызван метод Move класса Car");
+    Mileage++;
+  }
+}
+
+enum FuelType 
+{
+  Gas = 0,
+  Electricity
+}
+class HybridCar: Car 
+{
+    public FuelType FuelType;
+
+  public double Gas;
+
+  public double Electricity;
+
+  public HybridCar() 
+  {
+    Electricity = 50;
+    Gas = 50;
+  }
+  // Свойства и другие методы, присущие HybridCar
+  public override void Move() 
+  {
+    base.Move();
+    Console.WriteLine("Вызван метод Move класса HybridCar");
+
+    switch (FuelType) 
+    {
+    case FuelType.Gas:
+      Gas -= 0.5;
+      break;
+    case FuelType.Electricity:
+      Electricity -= 0.5;
+      break;
+    }
+  }
+}
+
+#!markdown
+
+## Задание 7.2.5
+
+Вернитесь к заданию 7.2.3 и дополните его код так, чтобы для вызова следующего следующего кода в консоль выводилось 2 сообщения (сначала "Метод класса BaseClass", а затем "Метод класса DerivedClass"):
+
+#!csharp
+
+class BaseClass 
+{
+  public virtual void Display() 
+  {
+    Console.WriteLine("Метод класса BaseClass");
+  }
+}
+
+class DerivedClass: BaseClass 
+{
+  public override void Display() 
+  {
+    base.Display();
+    Console.WriteLine("Метод класса DerivedClass");
+  }
+}
+DerivedClass obj = new DerivedClass();
+obj.Display();
+
+#!markdown
+
+## Ключевое слово sealed
+
+При переопределении метода можно запрещать дальнейшее его переопределение. Для этого при объявлении нужно добавлять модификатор sealed:
+
+#!markdown
+
+## Сокрытие методов
+
+Другим способом изменить функциональность метода, унаследованного от базового класса, является сокрытие (hiding).
+
+  **Сокрытие** — это механизм для замены метода базового класса в производном.
+
+### Для сокрытия базового метода, в производном классе следует использовать ключевое слово ***new*** (вместо ***override***):
+
+#!csharp
+
+class A {
+  public virtual void Display() 
+  {
+    Console.WriteLine("Вызван метод класса A");
+  }
+}
+class B: A 
+{
+  public override void Display() 
+  {
+    Console.WriteLine("Вызван метод класса B");
+  }
+}
+class C: B 
+{
+  public new void Display() 
+  {
+    Console.WriteLine("Вызван метод класса C");
+  }
+}
+
+A a = new A();
+B b = new B();
+C c = new C();
+
+a.Display();	// метод класса A
+b.Display();	// метод класса B
+((A)b).Display();	// метод класса B
+
+c.Display();	// метод класса C
+((A)c).Display();	// метод класса B
+((B)c).Display();	// метод класса B
+
+#!markdown
+
+## Задание 7.2.7
+
+Создайте схему классов A, B, C, D и E таким образом, чтобы B наследовался от A, С от A, D от B и E от C. А также:
+
+  - Добавьте в класс ***A*** виртуальный метод **Display** (**void** тип, без параметров), который будет выводить в консоль **"A"**.
+  - В классе ***B*** скройте этот метод и сделайте так, чтобы в консоль выводилось **"B"**.
+  - Для класса ***C*** переопределите метод **Display**, чтобы в консоли было **"C"**.
+  - Для ***D*** снова скройте метод.
+  - В классе ***E*** также скройте метод.
+
+#!csharp
+
+class A 
+{
+  public virtual void Display() 
+  {
+    Console.WriteLine("A");
+  }
+}
+class B: A 
+{
+  public new void Display() 
+  {
+    Console.WriteLine("B");
+  }
+}
+class C: A 
+{
+  public override void Display() 
+  {
+    Console.WriteLine("C");
+  }
+}
+class D: B 
+{
+  public new void Display() 
+  {
+    Console.WriteLine("D");
+  }
+}
+class E: C 
+{
+  public new void Display() 
+  {
+    Console.WriteLine("E");
+  }
+}
+
+#!markdown
+
+##  Задание 7.2.8
+
+Используя схему классов, которую вы создали в прошлом задании, ответьте, какой результат будет выведен в консоль после работы следующего кода:
+
+#!csharp
+
+D d = new D();
+E e = new E();
+
+d.Display();
+((A)e).Display();
+((B)d).Display();
+((A)d).Display();
+
+#!markdown
+
+## Перегрузка методов
+
+**Сигнатура метода** — это уникальный набор информации о методе, состоящий из его имени, количества, типа и порядка параметров а также из модификаторов параметров.
+
+**Перегрузка метода** — это возможность использования разных методов с одинаковым названием, но отличными друг от друга сигнатурами.
+
+#!csharp
+
+long Sum(long a, long b) 
+{
+  return a + b;
+}
+
+double Sum(double a, double b) 
+{
+  return a + b;
+}
+
+int Sum(int a, int b, int c) 
+{
+  return a + b + c;
+}
+
+#!markdown
+
+## Перегрузка операторов
+
+Оператор по сути очень похож на метод с 1-2 параметрами. При создании своих типов (классов и структур) бывает полезно использовать операторы, поскольку их использование будет выглядеть проще и понятнее.
+
+### Для объявления перегрузки оператора обязательно указывать модификаторы **public** и **static**, а после возвращаемого типа вместо метода указать ключевое слово **operator** и уже следом сам оператор.
+
+#!csharp
+
+class Vector 
+{
+  public int X;
+  public int Y;
+}
+
+Vector a = new Vector { X = 3, Y = 5 };
+Vector b = new Vector { X = 7, Y = 13 };
+
+Vector c = new Vector { X = a.X + b.X, Y = a.Y + b.Y };
+Console.WriteLine(c.X +"; "+ c.Y);
+
+#!csharp
+
+class Vector 
+{
+  public int X;
+  public int Y;
+
+  public static Vector operator + (Vector a, Vector b) 
+  {
+    return new Vector 
+    {
+      X = a.X + b.X,
+      Y = a.Y + b.Y
+    };
+  }
+}
+
+Vector a = new Vector { X = 3, Y = 5 };
+Vector b = new Vector { X = 7, Y = 13 };
+
+Vector c = a + b;
+Console.WriteLine(c.X +"; "+ c.Y);
+
+#!markdown
+
+Такое определение оператора по сути является методом, поэтому его тоже можно перегрузить, определив действие с тем же оператором, но для других операндов:
+
+#!csharp
+
+class Vector 
+{
+  public int X;
+  public int Y;
+
+
+public static Vector operator - (Vector a) 
+{
+  return new Vector 
+  {
+    X = a.X,
+    Y = a.Y
+  };
+}
+public static Vector operator - (Vector a, (int X, int Y) b) {
+  return new Vector 
+  {
+    X = a.X - b.X,
+    Y = a.Y - b.Y
+  };
+}
+}
+Vector a = new Vector { X = 3, Y = 5 };
+Vector b = new Vector { X = 7, Y = 13 };
+
+Vector d = -a;
+Vector e = a - (10, -5);
+Vector f = a - (10, -5);
+Console.WriteLine(c.X +"; "+ c.Y);
+Console.WriteLine(d.X +"; "+ d.Y);
+Console.WriteLine(e.X +"; "+ e.Y);
+Console.WriteLine(f.X +"; "+ f.Y);
+
+#!markdown
+
+## Задание 7.2.12
+
+Для класса Obj перегрузите операторы + и -, чтобы результатом работы оператора был новый экземпляр класса Obj, а операции производились над полем Value.
+
+#!csharp
+
+class Obj 
+{
+  public int Value;
+
+  public static Obj operator + (Obj a, Obj b) 
+  {
+    return new Obj 
+    {
+      Value = a.Value + b.Value
+    };
+  }
+  public static Obj operator - (Obj a, Obj b) 
+  {
+    return new Obj 
+    {
+      Value = a.Value - b.Value
+    };
+  }
+}
+
+#!markdown
+
+## Индексаторы
+
+**Индексаторы** позволяют индексировать объекты и обращаться к данным по индексу. С помощью индексаторов мы можем работать с объектами как с массивами.
+
+Объявление индексаторов в классе очень похоже на объявление свойств. Они имеют такие же блоки get и set, которые возвращают и присваивают значение.
+
+    [модификатор доступа] <тип возвращаемого значения> this [
+    <тип параметра 1> <название параметра 1>,
+    <тип параметра 2> <название параметра 2>,
+    ...
+    ]
+
+#!csharp
+
+// Класс для объекта “Книга”
+class Book 
+{
+  public string Name;
+  public string Author;
+}
+
+// Класс для объекта “Коллекция книг”
+class BookCollection 
+{
+  // Закрытое поле, хранящее книги в виде массива
+  private Book[] collection;
+
+  // Конструктор с добавлением массива книг
+  public BookCollection(Book[] collection) 
+  {
+    this.collection = collection;
+  }
+
+  // Индексатор по массиву
+  public Book this[int index] 
+  {
+    get 
+    {
+      // Проверяем, чтобы индекс был в диапазоне для массива
+      if (index >= 0 && index < collection.Length) 
+      {
+        return collection[index];
+      }
+      else 
+      {
+        return null;
+      }
+    }
+
+    private set 
+    {
+      // Проверяем, чтобы индекс был в диапазоне для массива
+      if (index >= 0 && index < collection.Length) 
+      {
+        collection[index] = value;
+      }
+    }
+  }
+}
+// Данный класс представляет из себя коллекцию, но хранит внутри себя массив, доступ к которому может быть осуществлен через индексатор. Для того чтобы получить какую-либо книгу, мы можем воспользоваться следующим синтаксисом:
+
+  var array = new Book[] 
+  {
+    new Book 
+    {
+      Name = "Мастер и Маргарита",
+      Author = "М.А. Булгаков"
+    },
+    new Book 
+    {
+      Name = "Отцы и дети",
+      Author = "И.С. Тургенев"
+    },
+  };
+  BookCollection collection = new BookCollection(array);
+
+  Book book = collection[1];
+  Console.WriteLine(book.Name);
+  Console.WriteLine(book.Author);
+
+#!csharp
+
+class Book
+{
+	public string Name;
+	public string Author;
+}
+
+class BookCollection
+{
+	private Book[] collection;
+
+	public BookCollection(Book[] collection)
+	{
+		this.collection = collection;
+	}
+
+	// Индексатор по массиву
+	public Book this[int index]
+	{
+		get
+		{
+			// Проверяем, чтобы индекс был в диапазоне для массива
+			if (index >= 0 && index < collection.Length)
+			{
+				return collection[index];
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		private set
+		{
+			// Проверяем, чтобы индекс был в диапазоне для массива
+			if (index >= 0 && index < collection.Length)
+			{
+				collection[index] = value;
+			}
+		}
+	}
+
+	public Book this[string name]
+	{
+		get
+		{
+			for (int i = 0; i < collection.Length; i++)
+			{
+				if (collection[i].Name == name)
+				{
+					return collection[i];
+				}
+			}
+
+			return null;
+		}
+	}
+}
+
+		var array = new Book[] {
+			new Book { Name = "Мастер и Маргарита", Author = "М.А. Булгаков" },
+			new Book { Name = "Отцы и дети", Author = "И.С. Тургенев" },
+		};
+		BookCollection collection = new BookCollection(array);
+
+		// Console.ReadKey();
+
+		Book book = collection[1];
+		book = collection[-1];
+		book = collection[4];
+
+		// Console.ReadKey();
+
+		book = collection["Мастер и Маргарита"];
+  Console.WriteLine(book.Name);
+  Console.WriteLine(book.Author);
+
+#!markdown
+
+## Задание 7.2.14
+
+Для следующего класса напишите индексатор, для типа параметра используйте int:
+
+    class IndexingClass 
+    {
+      private int[] array;
+
+      public IndexingClass(int[] array) 
+      {
+        this.array = array;
+      }
+    }
+
+#!csharp
+
+class IndexingClass 
+{
+  private int[] array;
+
+  public IndexingClass(int[] array) 
+  {
+    this.array = array;
+  }
+
+  public int this[int index] 
+{
+  get {
+    return array[index];
+  }
+
+  set 
+  {
+    array[index] = value;
+  }
+}
+}
+
+#!markdown
+
+# 7.3. Абстрактные классы
+
+### **Абстрактный класс** — это класс, экземпляр которого не может быть инициализирован. Абстрактный класс служит только базовым классом для других классов.
+
+Для того чтобы объявить абстрактный класс, в его объявлении следует добавить модификатор abstract:
+
+    abstract class AbstractClass 
+    {
+      public string Name;
+    }
+
+#!csharp
+
+// Для того чтобы понять, когда нужно использовать абстрактный класс, рассмотрим следующую схему классов для гостиницы:
+
+abstract class Person 
+{
+  public string Name;
+
+  public Person(string name) 
+  {
+    Name = name;
+  }
+
+  public void DisplayName() 
+  {
+    Console.WriteLine(Name);
+  }
+}
+
+class Employee: Person 
+{
+  // Булевый флаг, сообщающий, находится ли сотрудник на смене
+  public bool IsOnShift;
+
+  public Employee(string name, bool isOnShift) : base(name) {
+    IsOnShift = isOnShift;
+  }
+}
+
+class Guest: Person 
+{
+  // Дата и время прибытия гостя
+  public DateTime ArrivalDate;
+
+  public Guest(string name, DateTime arrivalDate) : base(name) {
+    ArrivalDate = arrivalDate;
+  }
+}
+
+#!markdown
+
+### **Абстрактный элемент класса** — это такой элемент абстрактного класса, который не имеет реализации в базовом классе и должен быть реализован в классе-наследнике
+
+Абстрактные элементы классов не должны иметь модификатор private.
+
+#!markdown
+
+## Абстрактные методы
+
+В C# абстрактные методы помечаются ключевым словом ***abstract***. Они не имеют тела в фигурных скобках, вместо этого после параметров метода идет точка с запятой:
+
+    abstract class AbstractClass 
+    {
+      public string Name;
+
+      public abstract void Display();
+    }
+
+#!csharp
+
+abstract class FourLeggedAnimal 
+{
+  public abstract void Describe();
+}
+
+class Dog: FourLeggedAnimal 
+{
+  public override void Describe() 
+  {
+    Console.WriteLine("Это животное - собака");
+  }
+}
+
+class Cat: FourLeggedAnimal 
+{
+  public override void Describe() 
+  {
+    Console.WriteLine("Это животное - кошка");
+  }
+}
+
+#!markdown
+
+## Задание 7.3.3
+
+Создайте классы для следующих объектов компьютера: процессор (Processor), материнская карта (MotherBoard), видеокарта (GraphicCard). Унаследуйте их от класса ComputerPart.
+
+Добавьте в класс ComputerPart абстрактный метод Work без параметров и с типом void.
+
+#!csharp
+
+abstract class ComputerPart 
+{
+  public abstract void Work();
+}
+
+class Processor: ComputerPart 
+{
+  public override void Work() {}
+}
+
+class MotherBoard: ComputerPart 
+{
+  public override void Work() {}
+}
+
+class GraphicCard: ComputerPart 
+{
+  public override void Work() {}
+}
+
+#!markdown
+
+## Абстрактные свойства
+
+Как было заявлено выше, свойства тоже могут быть абстрактными. Для этого они помечаются ключевым словом ***abstract***, а методы **get** и **set** не имеют тела (аналогично абстрактным методам). В таком виде объявление абстрактных свойств напоминает *автосвойства*:
+
+    abstract class AbstractClass 
+    {
+      public abstract string Name 
+      {
+        get;
+        set;
+      }
+
+      public abstract void Display();
+    }
+
+#!csharp
+
+// Для определения реализации свойства в производном класса также следует использовать override. Причем свойство можно определить как полное (в классе Dog), так и как автоматическое (в классе Cat):
+
+abstract class FourLeggedAnimal 
+{
+  public abstract string Name 
+  {
+    get;
+    set;
+  }
+}
+
+class Dog: FourLeggedAnimal 
+{
+  private string name;
+  public override string Name
+  {
+    get 
+    {
+      return name;
+    }
+    set 
+    {
+      name = value;
+    }
+  }
+}
+
+class Cat: FourLeggedAnimal 
+{
+  public override string Name 
+  {
+    get;
+    set;
+  }
+}
+
+#!markdown
+
+## Отказ от реализации абстрактных членов
+
+Производный класс обязан реализовать все абстрактные члены базового класса. Однако мы можем отказаться от реализации, но в этом случае производный класс также должен быть определен как абстрактный: Например:
+
+    abstract class AbstractClass 
+    {
+      public abstract string Name 
+      {
+        get;
+        set;
+      }
+    }
+
+    abstract class DerivedAbstractClass: AbstractClass 
+    {
+      public abstract void Display();
+    }
+
+Таким образом, в классе DerivedAbstractClass мы можем не определять реализацию поля Name, но в производных от этого класса классах всё равно будем обязаны это сделать.
+
+#!csharp
+
+abstract class Transport
+{
+	public abstract void Move();
+}
+
+class Boat : Transport
+{
+	public override void Move()
+	{
+		// ...
+	}
+}
+
+class Car : Transport
+{
+	public double Fuel;
+
+	public int Mileage;
+
+	public Car()
+	{
+		Fuel = 50;
+		Mileage = 0;
+	}
+	public override void Move()
+	{
+		Mileage++;
+		Fuel -= 0.5;
+	}
+
+	public void FillTheCar()
+	{
+		Fuel = 50;
+	}
+}
+
+enum FuelType
+{
+	Gas = 0,
+	Electricity
+}
+
+class HybridCar : Car
+{
+	public FuelType FuelType;
+
+	public void ChangeFuelType(FuelType type)
+	{
+		FuelType = type;
+	}
+}
+
+#!markdown
+
+# 7.4. Агрегация и композиция
+
+#!markdown
+
+## Ассоциация
+
+### **Ассоциация** — это отношение, при котором объекты одного типа неким образом связаны с объектами другого типа. Объект одного типа может содержать или использовать объект другого типа.
+
+Например, это может быть системный блок компьютера, который содержит в себе другие компоненты, в том числе и материнскую плату:
+
+    class MotherBoard
+    {
+    }
+
+    class SystemUnit 
+    {
+      private MotherBoard motherBoard;
+    }
+
+#!markdown
+
+## Композиция
+
+Композиция определяет отношение **HAS A**, то есть отношение «имеет». На том же примере отразим композиции:
+
+    class MotherBoard 
+    { 
+    }
+    class SystemUnit 
+    {
+      private MotherBoard motherBoard;
+
+      public SystemUnit() 
+      {
+        motherBoard = new MotherBoard();
+      }
+    }
+
+#!markdown
+
+## Агрегация
+
+От композиции следует отличать агрегацию. Она также предполагает отношение **HAS A**, но реализуется она иначе:
+
+    class MotherBoard 
+    {
+    }
+    class SystemUnit 
+    {
+      private MotherBoard motherBoard;
+
+      public SystemUnit(MotherBoard motherBoard) 
+      {
+        this.motherBoard = motherBoard;
+      }
+    }
+
+При агрегации реализуется **слабая связь**, то есть в данном случае объекты SystemUnit и MotherBoard будут равноправны. В конструктор SystemUnit передается ссылка на уже имеющийся объект MotherBoard, который был создан вне SystemUnit.
+
+#!markdown
+
+### При проектировании классов следует учитывать следующие общие рекомендации:
+
+  - *Композиция* **предпочтительнее** *наследования*.
+  - *Агрегация* **предпочтительнее** *композиции*.
+
+когда жизненный цикл компонентов происходит совместно и один полностью зависит от другого, лучше выбрать композицию.
+
+#!markdown
+
+# 7.5. Статические классы и элементы
+
+### **Статический элемент класса** (поле, свойство или метод) — такой элемент, который относится не к экземпляру, а к самому классу, и для работы с которым не требуется создавать экземпляр класса.
+
+#!csharp
+
+// Для объявления статического элемента достаточно добавить модификатор static:
+
+class SimpleClass 
+{
+  public static int MinValue = 100;
+
+  public int Value;
+
+  public SimpleClass(int value) 
+  {
+    if (value < MinValue) 
+    {
+      Value = MinValue;
+    }
+    else 
+    {
+      Value = value;
+    }
+  }
+}
+
+SimpleClass object1 = new SimpleClass(50);
+SimpleClass object2 = new SimpleClass(170);
+
+#!markdown
+
+## Задание 7.5.2
+
+Создайте класс Obj, определите в нем поля Name, Description (тип строки) и статическое поле MaxValue типа int, равное 2000.
+
+#!csharp
+
+class Obj 
+{
+  public string Name;
+  public string Description;
+  public static int MaxValue = 2000;
+}
+
+#!markdown
+
+## Статические поля, свойства и методы
+
+Аналогично полям создаются статические свойства:
+
+    class Counter 
+    {
+      private static int increasingCounter;
+      public static int IncreasingCounter 
+      {
+        get 
+        {
+          return increasingCounter;
+        }
+        set 
+        {
+          if (value > increasingCounter) 
+          {
+            increasingCounter = value;
+          }
+        }
+      }
+    }
+
+#!markdown
+
+Важно понимать, что статические методы могут обращаться только к статическим членам класса и переданным им параметрам. Обращаться к нестатическим методам, полям или свойствам внутри них невозможно.
+
+Также, статический метод нельзя переопределить или объявить виртуальным.
+
+#!markdown
+
+## Задание 7.5.3
+
+Создайте класс Helper и определите в нем статический метод Swap типа void, который принимает 2 переменные типа int и меняет их значения местами.
+
+Иными словами, для вашего метода должен будет корректно выполняться следующий код:
+
+    int num1 = 3;
+    int num2 = 58;
+
+    Helper.Swap(
+    /*передача num1 и num2 в метод*/
+    );
+
+    Console.WriteLine(num1); //58
+    Console.WriteLine(num2); //3
+
+#!csharp
+
+int num1 = 3;
+int num2 = 58;
+class Helper 
+{
+  public static void Swap(ref int a, ref int b) 
+  {
+    int temp = a;
+    a = b;
+    b = temp;
+  }
+}
+Console.WriteLine(num1); //3
+Console.WriteLine(num2); //58
+Helper.Swap(ref num1, ref num2);
+
+Console.WriteLine(num1); //58
+Console.WriteLine(num2); //3
+
+#!markdown
+
+## Статический конструктор
+
+Помимо перечисленных выше элементов, класс может также иметь статический конструктор:
+
+    class Car 
+    {
+      static Car() 
+      {
+        Console.WriteLine("Вызван статический конструктор класса Car");
+      }
+    }
+
+Статические конструкторы имеют следующие отличительные черты:
+
+  * Статические конструкторы не могут иметь модификатора доступа.
+  * Статические конструкторы не могут принимать параметры.
+  * Статические конструкторы не могут использовать нестатические поля (и не могут использовать и ключевое слово this).
+  * Статический конструктор невозможно вызвать в коде.
+  * Статический конструктор выполняется при первом создании экземпляра данного класса, либо при первом обращении к статическим членам класса.
+
+#!markdown
+
+## Задание 7.5.5
+
+Измените класс Obj так, чтобы статические поля инициализировались в статическом конструкторе:
+
+    class Obj 
+    {
+      public string Name;
+      public string Description;
+
+      public static string Parent = "System.Object";
+      public static int DaysInWeek = 7;
+      public static int MaxValue = 2000;
+    }
+
+#!csharp
+
+class Obj 
+{
+  public string Name;
+  public string Description;
+
+  public static string Parent;
+  public static int DaysInWeek;
+  public static int MaxValue;
+
+  static Obj() 
+  {
+    Parent = "System.Object";
+    DaysInWeek = 7;
+    MaxValue = 2000;
+  }
+}
+
+#!markdown
+
+## Статические классы
+
+### **Статический класс** — это такой класс, которой объявлен с модификатором static и может содержать только статические поля, свойства и методы.
+
+Важно понимать, что статические классы не могут наследоваться от других классов, как и становиться базовыми классами.
+
+#!markdown
+
+## Методы расширения
+
+### **Методы расширения** (extension methods) позволяют добавлять новые методы в уже существующие типы без создания нового производного класса.
+
+Данная функциональность бывает полезна, когда нужно добавить в класс (или структуру) новый метод для работы с экземпляром, но мы не можем изменить сам класс (нет доступа к исходному коду), либо не можем использовать наследование.
+
+Метод расширения должен объявляться в статическом классе, обычно их называют по типу, которому будет относиться расширение, добавляя Extensions. Например, для расширения функциональностм типа int это может быть класс IntExtensions.
+
+#!markdown
+
+*Сам метод должен быть статическим с одним небольшим отличием в объявлении: метод должен иметь как минимум 1 параметр, и перед типом этого параметра следует добавить ключевое слово this:*
+
+    [модификатор доступа] static <тип возвращаемого значения> <название метода>(
+    this <тип параметра 1> <название параметра 1>,
+    [<тип параметра 2> <название параметра 2>, ...]
+    )
+
+Таким образом, в сам метод будет передаваться экземпляр класса, для которого был вызван данный метод в качестве первого параметра. Добавим метод расширения, который находит последний символ в строке:
+
+        static class StringExtensions 
+        {
+        public static char GetLastChar(this string source) 
+        {
+            return source[source.Length - 1];
+        }
+        }
+
+#!csharp
+
+static class StringExtensions 
+{
+}
+public static char GetLastChar(this string source) 
+{
+  return source[source.Length - 1];
+}
+
+string str = "Hello";
+Console.WriteLine(str.GetLastChar());
+
+Console.WriteLine("Строка".GetLastChar());
+
+#!markdown
+
+####  *Применение методов расширения очень удобно, но при этом надо помнить, что метод расширения никогда не будет вызван, если он имеет ту же сигнатуру, что и метод, изначально определенный в типе.*
+
+#!markdown
+
+## Задание 7.5.9
+
+Для класса int создайте 2 метода расширения: GetNegative() и GetPositive().
+
+Метод GetNegative должен возвращать отрицательное значение переменной (если оно положительно), либо саму переменную (если оно отрицательно или равно 0).
+
+Метод GetPositive должен, наоборот, возвращать положительное значение (если оно отрицательно), либо саму переменную (если оно положительно или равно 0).
+
+Иными словами, для вашего метода должен будет корректно выполняться следующий код:
+
+    int num1 = 7;
+    int num2 = -13;
+    int num3 = 0;
+
+    Console.WriteLine(num1.GetNegative()); //-7
+    Console.WriteLine(num1.GetPositive()); //7
+    Console.WriteLine(num2.GetNegative()); //-13
+    Console.WriteLine(num2.GetPositive()); //13
+    Console.WriteLine(num3.GetNegative()); //0
+    Console.WriteLine(num3.GetPositive()); //0
+
+#!csharp
+
+static class IntExtensions 
+{
+}
+public static int GetNegative(this int number) 
+{
+  if (number > 0) 
+  {
+    return - number;
+  }
+  else 
+  {
+    return number;
+  }
+}
+public static int GetPositive(this int number) 
+{
+  if (number < 0) 
+  {
+    return - number;
+  }
+  else 
+  {
+    return number;
+  }
+}
+
+int num1 = 7;
+int num2 = -13;
+int num3 = 0;
+
+Console.WriteLine(num1.GetNegative()); //-7
+Console.WriteLine(num1.GetPositive()); //7
+Console.WriteLine(num2.GetNegative()); //-13
+Console.WriteLine(num2.GetPositive()); //13
+Console.WriteLine(num3.GetNegative()); //0
+Console.WriteLine(num3.GetPositive()); //0
+
+#!markdown
+
+# 7.6. Обобщения
+
+### **Обобщённый тип** — это тип, который имеет параметр, в качестве которого может выступать другой тип данных. Такой параметр также называется универсальным параметром.

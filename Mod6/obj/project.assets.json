@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/az/DEV/DotNET/SF_CSharp/OOP/Mod6/Mod6.csproj",
+      "projectUniqueName": "/home/az/DEV/SkillFactory/SF_CSharp/OOP/Mod6/Mod6.csproj",
       "projectName": "Mod6",
-      "projectPath": "/home/az/DEV/DotNET/SF_CSharp/OOP/Mod6/Mod6.csproj",
+      "projectPath": "/home/az/DEV/SkillFactory/SF_CSharp/OOP/Mod6/Mod6.csproj",
       "packagesPath": "/home/az/.nuget/packages/",
-      "outputPath": "/home/az/DEV/DotNET/SF_CSharp/OOP/Mod6/obj/",
+      "outputPath": "/home/az/DEV/SkillFactory/SF_CSharp/OOP/Mod6/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/az/.nuget/NuGet/NuGet.Config"

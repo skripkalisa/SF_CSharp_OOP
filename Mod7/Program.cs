@@ -1,14 +1,18 @@
 ﻿using System;
-using Mod7.Car;
+
 
 namespace Mod7
 {
-    class Program
+
+
+  class Program
+  {
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Car car = new HybridCar();
-            car.Move();
-        }
+      // Order order = new Order();
+      // order.DisplayAddress();
+      Client cl1 = new Client("John", "Doe", "+12345678963", "Fake address");
+      cl1.getInfo();
     }
+  }
 }

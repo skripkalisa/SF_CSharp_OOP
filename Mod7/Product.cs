@@ -5,6 +5,21 @@ namespace Mod7
 {
     internal abstract class Product
     {
+        private protected string Name;
+        private protected string Description;
+        private protected List<string> Ingredients;
+        private protected int Calories;
+        private protected int Price;
+        protected Product()
+        {
+        }
+        protected Product(string name, string description, int calories, int price)
+        {
+            Name = name;
+            Description = description;
+            Calories = calories;
+            Price = price;
+        }
         protected Product(string name, string description, List<string> ingredients, int calories, int price)
         {
             Name = name;
@@ -13,38 +28,30 @@ namespace Mod7
             Calories = calories;
             Price = price;
         }
-        
 
-        private protected string Name;
-        private protected string Description;
-        private protected List<string> Ingredients;
-        private protected int Calories;
-        private protected int Price;
-
-        protected Product()
-        {
-        }
+        internal abstract Product GetProduct();
+        // {
+        //     return Product;
+        // }
     }
 
     internal abstract class Food : Product
     {
         private protected bool IsHot;
         private protected List<string> Extras;
-
-        protected Food(bool isHot, List<string> extras)
+        protected Food() 
+        {
+        }
+        protected Food(string name, string description,  int calories, int price,bool isHot = false):base(name, description, calories, price)
         {
             IsHot = isHot;
-            Extras = extras;
-        }        
+        }       
         protected Food(string name, string description, List<string> ingredients, int calories, int price,bool isHot, List<string> extras):base(name, description, ingredients, calories, price)
         {
             IsHot = isHot;
             Extras = extras;
         }
-
-        protected Food() 
-        {
-        }
+        // public virtual  Product GetProduct();
     }
     abstract class Drink : Product
     {
@@ -53,68 +60,81 @@ namespace Mod7
     }
     internal class Sushi : Food
     {
+        private string Filler;
         public Sushi(){}
+
         private Sushi(string name, string description, List<string> ingredients, int calories, int price, bool isHot, List<string> extras):base(name, description, ingredients, calories, price, isHot, extras)
         {
         }
 
-        protected Sushi makeSushi()
+        internal Sushi(string name, string filler, string description, int calories, int price, bool isHot = false) :
+            base(name, description, calories, price, isHot)
+        {
+            Filler = filler;
+            MakeSushi();
+        }
+        
+        private void MakeSushi( )
         {
             List<string> ingredients = new List<string>();
             ingredients.Add("рис");
-            ingredients.Add("чука");
+            ingredients.Add(Filler);
             ingredients.Add("морская капуста");
+            Ingredients = ingredients;
             List<string> extras = new List<string>();
             extras.Add("соевый соус");
             extras.Add("васаби");
-            Sushi chuka = new Sushi("Чука", "Суши с морскими водорослями", ingredients, 50, 100, false, extras);
-            return chuka;
+            Extras = extras;
+
         }
 
-        public string getSushi()
-        {   Sushi sushi = makeSushi();
+        internal override Product GetProduct()
+        {   
+            MakeSushi();
             string ingredients = "";
-            foreach (string item in sushi.Ingredients)
+            foreach (string item in Ingredients)
             {
                 ingredients += item + "; ";
             }
             string extras = "";
-            foreach (string extra in sushi.Extras)
+            foreach (string extra in Extras)
             {
                 extras += extra + "; ";
             }
 
-            string s = $"Название: {sushi.Name} " +
-                       $"\nОписание: {sushi.Description} " +
+            string s = $"Название: {Name} " +
+                       $"\nОписание: {Description} " +
                        $"\nСостав: {ingredients}" +
-                       $"\nКалорийность: {sushi.Calories} ккал " +
-                       $"\nЦена: {sushi.Price} руб.";
+                       $"\nКалорийность: {Calories} ккал " +
+                       $"\nЦена: {Price} руб.";
             if (IsHot) s+= $"\nГорячее блюдо!";
             s += $"\nДополнительно: {extras}";
             Console.WriteLine(s);
-            return s;
+            // return s;
+            return new Sushi(Name, Description, Ingredients, Calories, Price, IsHot, Extras);
+
         }
         
     }
-    internal class Roll : Food
-    {
-
-    }
-    internal class Soup : Food
-    {
-
-    }
-    internal class Salad : Food
-    {
-
-    }
-    internal class Tea : Drink
-    {
-
-    }
-    internal class Juice : Drink
-    {
-
-    }
+    // internal class Roll : Food
+    // {
+    //
+    // }
+    // internal class Soup : Food
+    // {
+    //
+    // }
+    // internal class Salad : Food
+    // {
+    //
+    // }
+    // internal class Tea : Drink
+    // {
+    //
+    // }
+    // internal class Juice : Drink
+    // {
+    //
+    // }
 
 }

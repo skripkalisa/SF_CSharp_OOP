@@ -10,10 +10,10 @@ namespace Mod7
         private bool IsComplete;
 
         private readonly List<string> _paymentType = new() {"Наличные", "Карта", "Онлайн", "Бартер"};
-        internal Payment(bool upFront, string paymentType)
+        internal Payment(bool upFront, string paymentType = "Наличные")
         {
             UpFront = upFront;
-            PaymentType = _paymentType.Contains(paymentType) ? paymentType : "Наличные";
+            PaymentType = paymentType;
             IsComplete = upFront;
         }        
         internal Payment(bool upFront, string paymentType, bool isComplete)
@@ -22,24 +22,15 @@ namespace Mod7
             PaymentType = _paymentType.Contains(paymentType) ? paymentType : "Наличные";
             IsComplete = upFront || isComplete;
         }
-
-
-        public bool UpFront1
+        
+        public string getStatus()
         {
-            get => UpFront;
-            set => UpFront = value;
-        }
-
-        public void getStatus()
-        {
-            if(UpFront)
-                Console.WriteLine($"Предоплата. Способ оплаты: {PaymentType}" );
-            else
-            {
-                Console.Write("Статус платежа: ");
-                Console.WriteLine(IsComplete ? "погашен." : "ожидается.");
-                Console.WriteLine($"Способ оплаты: {PaymentType}" );
-            }
+            string s = "Статус платежа: ";
+            if(UpFront) s += $"Предоплата.";
+            else s += IsComplete ? "погашен." : "ожидается.";
+            s += $"\nСпособ оплаты: {PaymentType}";
+            Console.WriteLine(s);
+            return s;
         }
 
     }

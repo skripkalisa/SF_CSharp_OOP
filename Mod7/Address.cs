@@ -35,7 +35,7 @@ namespace Mod7
             else if (Comment != null) address += $". Комментарий: {Comment}";
             else address += $"не указан";
             address += ".";
-            Console.WriteLine(address);
+            // Console.WriteLine(address);
             return address;
         }
 
@@ -49,14 +49,7 @@ namespace Mod7
         private protected int Entrance;
 
         protected ExactAddress(){}
-        // internal ExactAddress(string city, string street, string comment, int house, int building, int flat, int floor, int entrance) : base( city,  street,  comment)
-        // {
-        //     House = house;
-        //     Building = building;
-        //     Flat = flat;
-        //     Floor = floor;
-        //     Entrance = entrance;
-        // }        
+ 
         internal ExactAddress(int house, int building, int flat, int floor, int entrance) 
         {
             House = house;
@@ -89,7 +82,7 @@ namespace Mod7
             if (Floor != 0) fullAddress +=  $"{Floor} этаж.";
             if (fullAddress == emptyAddress)fullAddress += $"не указан.";
             if(Comment != null) fullAddress +=  $" Комментарии: {Comment}";
-            Console.WriteLine(fullAddress);
+            // Console.WriteLine(fullAddress);
             return fullAddress;
         }
     }

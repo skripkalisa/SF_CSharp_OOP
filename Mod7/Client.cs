@@ -47,17 +47,12 @@ namespace Mod7
         internal void SetExactAddress(int house, int building, int flat, int floor, int entrance)
         {
             if(Street == null) Console.WriteLine("Надо сначала указать улицу");
-            // else
-            // {
-            // }
-                House = house;
-                Building = building;
-                Flat = flat;
-                Floor = floor;
-                Entrance = entrance;
+            House = house;
+            Building = building;
+            Flat = flat;
+            Floor = floor;
+            Entrance = entrance;
         }
-
-
 
         internal string GetInfo()
         {
@@ -66,7 +61,7 @@ namespace Mod7
             if (Phone != null) clientInfo += $". Тел.: {Phone}";
             
             clientInfo += $". Доставка: {Delivery}.";
-            Console.WriteLine(clientInfo);
+            // Console.WriteLine(clientInfo);
             return clientInfo;
         }
 

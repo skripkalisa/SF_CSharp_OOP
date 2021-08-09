@@ -1,45 +1,82 @@
+using System;
 using System.Buffers.Text;
 using System.Collections.Generic;
 
 namespace Mod7
 {
-    abstract class Delivery : Client
+    abstract class Delivery<TClient> where TClient: Client
     {
-        protected abstract void GetDeliveryAddress();
-        internal abstract List<string> GetDetails();
-    }
-
-    class  HomeDelivery : Delivery
-    {
+        private protected TClient Client;
         private string ClientInfo;
         private string ClientAddress;
         private List<string> DeliveryDetails;
 
-        protected override void GetDeliveryAddress()
+        private protected abstract void GetDeliveryAddress();
+
+        internal abstract List<string> GetDetails();
+
+    }
+
+    class  HomeDelivery : Delivery<Client>
+    {
+        private string ClientInfo;
+        private string ClientAddress;
+        private List<string> DeliveryDetails;        
+
+        public HomeDelivery(Client client)
         {
-            ClientInfo = GetInfo();
-            ClientAddress = GetClientAddress();
-            DeliveryDetails.Add(ClientInfo);
-            DeliveryDetails.Add(ClientAddress);
+            ClientInfo = client.GetInfo();
+            ClientAddress = client.GetFullAddress();
+
+        }
+
+        private protected override void GetDeliveryAddress()
+        {
+            List<string> deliveryDetails = new List<string>();
+            deliveryDetails.Add(ClientInfo);
+            deliveryDetails.Add(ClientAddress);
+            DeliveryDetails = deliveryDetails;
         }
 
         internal override List<string> GetDetails()
         {
             GetDeliveryAddress();
+            foreach (string detail in DeliveryDetails)
+            {
+                Console.WriteLine(detail);
+            }
             return DeliveryDetails;
         }
-        
-        /* ... */
+
     }
 
-    // class PickPointDelivery : Delivery
-    // {
-    //     /* ... */
-    // }
-    //
-    // class ShopDelivery : Delivery
-    // {
-    //     /* ... */
-    // }
+
+    class ShopDelivery : Delivery<Client>
+    { 
+        private string ClientInfo;
+        private List<string> DeliveryDetails;
+        /* ... */
+        public ShopDelivery(Client client)
+        {
+            ClientInfo = client.GetInfo();
+        }
+
+        private protected override void GetDeliveryAddress()
+        {
+            List<string> deliveryDetails = new List<string>();
+            deliveryDetails.Add(ClientInfo);
+            DeliveryDetails = deliveryDetails;
+        }
+
+        internal override List<string> GetDetails()
+        {
+            GetDeliveryAddress();
+            foreach (string detail in DeliveryDetails)
+            {
+                Console.WriteLine(detail);
+            }
+            return DeliveryDetails;
+        }
+    }
 
 }

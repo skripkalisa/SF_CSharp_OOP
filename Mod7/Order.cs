@@ -2,18 +2,43 @@ using System;
 
 namespace Mod7
 {
-    class Order<TDelivery,
-        TStruct> where TDelivery : Delivery
+    class Order<TDelivery, TClient, TProduct, TPayment> 
+        where TDelivery : Delivery<Client> 
+        where TClient : Client
+        where TProduct : Product
+        where  TPayment : Payment
+    
+        // : Client
     {
-        public TDelivery Delivery;
+        private TDelivery Delivery;
+        private TClient Client;
+        private TProduct Product;
+        private TPayment  Payment;
+        private static int id;
 
-        public int Number;
 
-        public string Description;
-
-        public void DisplayAddress()
+        public Order(TDelivery delivery, TClient client, TProduct product, TPayment payment)
         {
-            Console.WriteLine(Delivery.Delivery);
+            Delivery = delivery;
+            Client = client;
+            Product = product;
+            Payment = payment;
+            id++;
+        }
+
+        public void FullfilOrder()
+        {
+            Console.WriteLine("Заказ: " + id);
+            Console.WriteLine("Клиент: " + Client.GetInfo());
+
+            Console.WriteLine("Состав заказа: " );
+            Product.GetProduct();
+
+            Console.WriteLine("Информация об оплате. ");
+            Payment.getStatus();
+            Console.WriteLine("Информация о доставке:");
+            Delivery.GetDetails();
+
         }
 
         // ... Другие поля

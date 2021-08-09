@@ -26,7 +26,7 @@ namespace Mod7
             id++;
         }
 
-        public void FullfilOrder()
+        public void FulfilOrder()
         {
             Console.WriteLine("Заказ: " + id);
             Console.WriteLine("Клиент: " + Client.GetInfo());

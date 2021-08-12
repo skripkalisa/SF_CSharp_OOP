@@ -8,7 +8,7 @@ namespace Mod7
         private string FirstName;
         private string LastName;
         private string Phone;
-        public string Delivery;
+        private string Delivery;
         
         internal Client()
         {

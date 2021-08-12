@@ -63,8 +63,7 @@ namespace Mod7
 
         private protected override void GetDeliveryAddress()
         {
-            List<string> deliveryDetails = new List<string>();
-            deliveryDetails.Add(ClientInfo);
+            List<string> deliveryDetails = new List<string> { ClientInfo };
             DeliveryDetails = deliveryDetails;
         }
 

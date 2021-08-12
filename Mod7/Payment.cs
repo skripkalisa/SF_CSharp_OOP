@@ -23,7 +23,7 @@ namespace Mod7
             IsComplete = upFront || isComplete;
         }
         
-        public string getStatus()
+        public string GetStatus()
         {
             string s = "Статус платежа: ";
             if(UpFront) s += $"Предоплата.";

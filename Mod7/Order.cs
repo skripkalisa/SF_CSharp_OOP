@@ -35,7 +35,7 @@ namespace Mod7
             Product.GetProduct();
 
             Console.WriteLine("Информация об оплате. ");
-            Payment.getStatus();
+            Payment.GetStatus();
             Console.WriteLine("Информация о доставке:");
             Delivery.GetDetails();
 

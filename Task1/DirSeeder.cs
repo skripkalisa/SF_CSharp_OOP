@@ -14,14 +14,16 @@ namespace Task1
 
         internal DirSeeder(int limit, string path)
         {
-            if (limit is > 0 and < 25)
+            if (limit is > 0 and < 26)
             {
                 _limit = limit;
             }
             else
             {
-                Console.WriteLine("Limit must be within 0 and 25.  Using default value 10.");
                 _limit = 10;
+                Console.WriteLine($"Неверный задан параметр limit." +
+                                  $"В целях безопасности количество ветвей ограничено в пределах от 1 до 25 включительно." +
+                                  $"\nИспользую значение по умолчанию: {_limit}.");
             }
 
             _path = path;

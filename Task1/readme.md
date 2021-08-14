@@ -15,3 +15,4 @@
 - **4 балла** (отлично): предусмотрена проверка на наличие папки по заданному пути (строчка if directory.Exists);
   предусмотрена обработка исключений при доступе к папке (блок try-catch, а также логирует исключение в консоль).
 
+![Screenshot](https://github.com/skripkalisa/SF_CSharp_OOP/tree/Module_8/Task1/Task1.png)

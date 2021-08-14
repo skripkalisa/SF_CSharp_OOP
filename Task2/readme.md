@@ -9,3 +9,4 @@
 - **2 балла** (хорошо): написан метод и код выполняет свою функцию.
 - **4 балла** (отлично): предусмотрена обработка исключений и валидация пути.
 
+![Screenshot](https://github.com/skripkalisa/SF_CSharp_OOP/blob/Module_8/Task2/Task2.png "Screenshot of Task2")

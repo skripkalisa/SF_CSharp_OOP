@@ -7,17 +7,17 @@ namespace Task1
     {
         private static void Main(string[] args)
         {
-            string userPath = "../../../temp";
+            var userPath = "../../../temp";
             var span = 5;
             Console.WriteLine("Программа удалит файлы и каталоги, " +
                               "с момента последнего использования которых " +
                               "прошло заданное время. " +
                               $"\nЗначение по умолчанию - {span} минут. ");
-            
+
             Console.Write("Введите путь к файлу или каталогу, которые нужно почистить: ");
-            string input = Console.ReadLine();
+            var input = Console.ReadLine();
             userPath = UserPath(input, userPath);
-            
+
             Console.Write("Введите количество минут с момента последнего использования: ");
             span = GetInterval(span);
 
@@ -36,6 +36,7 @@ namespace Task1
                 Console.WriteLine("Использую значение по умолчанию: " + span);
                 // throw;
             }
+
             return span;
         }
 

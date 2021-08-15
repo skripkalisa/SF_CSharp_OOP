@@ -62,7 +62,7 @@ namespace Task3
                 foreach (var dir in Directory.GetDirectories(di))
                 {
                     foreach (var file in Directory.GetFiles(dir))
-                        Console.WriteLine($"{file} : занимает {file.Length} байт на диске");
+                        Console.WriteLine($"{file} : занимает на диске {file.Length} байт(а)");
                     UserPathInfo(dir);
                 }
             }

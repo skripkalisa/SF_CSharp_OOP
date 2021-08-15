@@ -20,11 +20,6 @@ namespace Task2
 
             var di = new DirectoryInfo(userPath);
             var parent = di.Parent;
-
-            // Console.WriteLine("Папки:"); 
-            // Console.WriteLine(parent.GetFiles());
-            // FileInfo[] dirs = parent?.GetFiles();  // Получим все директории корневого каталога
-
             var count = DirSize(di);
             Console.WriteLine($"Размер каталога {di.Name}: {count} байт");
             count = DirSize(parent);

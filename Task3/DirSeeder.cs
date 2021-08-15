@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.IO;
 
-namespace Task1
+namespace Task3
 {
     public class DirSeeder
     {
@@ -65,7 +65,7 @@ namespace Task1
                             var f = $"{subfld}/{file}.tmp";
                             if (!File.Exists(f))
                             {
-                                //File.Create(f);
+                                // File.Create(f);
                                 using var sw = File.CreateText(f);
                                 sw.Write(DateTime.Now);
                             }

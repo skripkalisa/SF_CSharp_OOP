@@ -24,15 +24,13 @@ namespace Task3
             span = GetInterval(span);
 
             var di = new DirectoryInfo(userPath);
-            // var parent = di.Parent;
-            // System.Threading.Thread.Sleep(1000);
+
             var count = DirSize(di.Parent);
             var parentBefore = count;
             Console.WriteLine($"До очистки размер каталога {di.Parent}: {count} байт");
             count = DirSize(di);
             Console.WriteLine($"Исходный размер каталога: {count} байт");
-            // Console.WriteLine($"До очистки размер каталога {di.Name}: {count} байт");
-            // System.Threading.Thread.Sleep(1000);
+
             UserPathInfo(di.FullName);
 
             Console.WriteLine("Вы уверены, что хотите удалить эти данные?");

@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 
@@ -9,7 +8,8 @@ namespace Task3
     {
         private static void Main(string[] args)
         {
-            var userPath = "../../../temp";
+            DirectoryInfo di0 = new("./");
+            var userPath = di0.Parent?.Parent?.Parent?.FullName + "/temp";
             var span = 5;
             Console.WriteLine("Программа удалит файлы и каталоги, " +
                               "с момента последнего использования которых " +

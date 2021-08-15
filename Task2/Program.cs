@@ -8,7 +8,8 @@ namespace Task2
     {
         private static void Main(string[] args)
         {
-            var userPath = "../../../";
+            DirectoryInfo di0 = new DirectoryInfo("./");
+            var userPath = di0.Parent?.Parent?.Parent?.FullName;
 
             Console.WriteLine("Программа считает размер папки на диске " +
                               "(вместе со всеми вложенными папками и файлами). " +

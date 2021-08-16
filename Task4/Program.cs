@@ -1,128 +1,125 @@
-﻿using System;
+using System;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-// using System.Text;
 
-// byte[] bt;
-// bt = File.ReadAllBytes(path);
-// string file = Encoding.UTF8.GetString(bt);
-// Console.WriteLine(file);
 namespace Task4
 {
-    [Serializable]
-    class BinFile
+    public static class StreamEOF
     {
-        // public string Name;
-        // public string Group;
-        // public DateTime Dt;
-        public string Name { get; set; }
-        public string Group { get; set; }
-        public DateTime Dt { get; set; }
-
-        public BinFile(string name, string group, DateTime dt)
+        public static bool EOF(this BinaryReader binaryReader)
         {
-            Name = name;
-            Group = group;
-            Dt = dt;
+            var bs = binaryReader.BaseStream;
+            return bs.Position == bs.Length;
         }
-
-        public BinFile()
-        {
-        }
-
-        // public GetInfo()
-        // {
-        //     
-        // }
-
-        
     }
-    internal class Program
+
+    public class Program
     {
-        private static void Main(string[] args)
+        public static void Main()
         {
-            DirectoryInfo di = new DirectoryInfo("./");
+            var di = new DirectoryInfo("./");
             var workspace = di.Parent?.Parent?.Parent?.FullName + "/";
-            
-            string fileName = "Students.dat";
-            string oldName = workspace + fileName;
+            var fileName = "Students.dat";
+            var fileTxt = "st.txt";
             var path = workspace + "_" + fileName;
-            FileInfo fi = new FileInfo(oldName);
-            if(File.Exists(path))
-                File.Delete(path);
-            fi.CopyTo(path);
-
-            // Console.WriteLine(workspace);
-            // BinFile bf = new BinFile();
-            // new BinFile().GetStudents(workspace);
-            // bf.GetStudents(workspace);
-            // student.GetStudents(workspace);
-            // BinaryFormatter formatter = new BinaryFormatter();
-            // using (var fs = new FileStream(workspace, FileMode.Open))
-            // {
-            //     formatter.Serialize(fs, student);
-            //     Console.WriteLine("Объект сериализован");
-            //     Console.WriteLine($"Имя: {student.Name} --- Возраст: {student.Group}");
-            // }
-            // using (var fs = new FileStream(workspace, FileMode.Open))
-            // {
-            //     var student2 = (BinFile)formatter.Deserialize(fs);
-            //     Console.WriteLine("Объект десериализован");
-            //
-            //     Console.WriteLine($"Имя2: {student2.Name} --- Возраст2: {student2.Group}");
-            // }
-            GetStudents(path);
+            var pathTxt = workspace + fileTxt;
+            if (!File.Exists(path))
+                MakeBinaryFile(pathTxt, path);
+            ReadValues(path);
+            Console.WriteLine($"Файлы успешно созданы в {workspace}Students");
         }
-        public static void GetStudents(string path)
-        {
 
-            BinFile student = new BinFile("N", "G", DateTime.Now);
-            // Console.WriteLine($"Name: {student.Name}; Group: {student.Group}; Birthday: {student.Dt}");
-            BinaryFormatter formatter = new BinaryFormatter();  
-            using (var fs = new FileStream(path, FileMode.Open))
+
+        private static void ReadValues(string path)
+        {
+            string stName;
+            string stGroup;
+            DateTime stDateOfBirth;
+
+
+            if (!File.Exists(path)) return;
+            var di = new DirectoryInfo(path);
+            var parentPath = $"{di.Parent}";
+            var studentsPath = $"{parentPath}/Students";
+            if (Directory.Exists(studentsPath))
+                DeleteRecursively(studentsPath);
+            Directory.CreateDirectory(studentsPath);
+
+                
+            using var br =
+                new BinaryReader(
+                    File.Open($"{parentPath}/_Students.dat",
+                        FileMode.Open));
+            while (!br.EOF())
             {
-                // formatter.Serialize(fs, student);
+                stName = br.ReadString();
+                stGroup = br.ReadString();
+                stDateOfBirth = DateTime.FromBinary(br.ReadInt64());
+
+                CreateFiles(studentsPath, stGroup, stName, stDateOfBirth);
+
+                // Console.WriteLine("Из файла считано:");
+                // Console.WriteLine("Имя: " + stName);
+                // Console.WriteLine("Группа: " + stGroup);
+                // Console.WriteLine("Дата рождения: " + stDateOfBirth.Date.ToString("d"));
+            }
+        }
+
+        private static void CreateFiles(string studentsPath, string stGroup, string name, DateTime dateOfBirth)
+        {
+            using var stream = new FileStream($"{studentsPath}/{stGroup}.txt", FileMode.OpenOrCreate, FileAccess.Write,
+                FileShare.Write);
+            using var sw = File.AppendText($"{studentsPath}/{stGroup}.txt");
+            sw.WriteLine($"Имя: {name}, дата рождения: {dateOfBirth.Date:d} ");
+        }
+
+        private static void MakeBinaryFile(string pathTxt, string path)
+        {
+            var lines = File.ReadLines(pathTxt);
+            foreach (var line in lines)
+            {
+                var r = new Random();
+                var student = line.Split(" ");
+                var dt = new DateTime(r.Next(2000, 2010), r.Next(1, 12), r.Next(1, 28));
+                var st = new Student(student[0], student[1], dt.Date);
+                st.AddStudent(path);
+            }
+        }
+
+        private static void DeleteRecursively(string userPath)
+        {
+            var di = new DirectoryInfo(userPath);
+
+            foreach (var file in di.EnumerateFiles())
                 try
                 {
-                    student = (BinFile)formatter.Deserialize(fs);
+                    file.Delete();
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Не могу прочитать грёбаный файл: \n"+e.Message);
+                    Console.WriteLine("Не могу удалить файл: " + e.Message);
                     // throw;
                 }
-            
-                Console.WriteLine($"Name: {student.Name}; Group: {student.Group}; Birthday: {student.Dt}");
-            }
-            // using (BinaryReader br = new BinaryReader(File.Open(path, FileMode.Open)))
-            // {
-            //     string name = br.ReadString();
-            //     string group = br.ReadString();
-            //     DateTime dt = DateTime.FromBinary(br.Read());
-            //
-            //     Console.WriteLine($"Name2: {name}; Group2: {group}; Birthday2: {dt}");
-            //     
-            //     
-            //     name = br.ReadString();
-            //     group = br.ReadString();
-            //     dt = DateTime.FromBinary(br.Read());
-            //
-            //     Console.WriteLine($"Name2: {name}; Group2: {group}; Birthday2: {dt}");                
-            //     
-            //     name = br.ReadString();
-            //     group = br.ReadString();
-            //     dt = DateTime.FromBinary(br.Read());
-            //
-            //     Console.WriteLine($"Name2: {name}; Group2: {group}; Birthday2: {dt}");                
-            //     
-            //     name = br.ReadString();
-            //     group = br.ReadString();
-            //     dt = DateTime.FromBinary(br.Read());
-            //
-            //     Console.WriteLine($"Name2: {name}; Group2: {group}; Birthday2: {dt}");
-            // }
 
-                
+            foreach (var dir in di.EnumerateDirectories())
+                try
+                {
+                    dir.Delete(true);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Не могу удалить каталог: " + e.Message);
+                    // throw;
+                }
+
+            try
+            {
+                di.Delete();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Не могу удалить заданный каталог: " + e.Message);
+                // throw;
+            }
         }
     }
 }

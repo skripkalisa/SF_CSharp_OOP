@@ -3,12 +3,11 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
-// using System.Text;
-
 // byte[] bt;
 // bt = File.ReadAllBytes(path);
 // string file = Encoding.UTF8.GetString(bt);
 // Console.WriteLine(file);
+
 namespace Task4
 {
     [Serializable]

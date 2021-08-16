@@ -3,15 +3,6 @@ using System.IO;
 
 namespace Task4
 {
-    public static class StreamEOF
-    {
-        public static bool EOF(this BinaryReader binaryReader)
-        {
-            var bs = binaryReader.BaseStream;
-            return bs.Position == bs.Length;
-        }
-    }
-
     public class Program
     {
         public static void Main()
@@ -44,12 +35,12 @@ namespace Task4
                 DeleteRecursively(studentsPath);
             Directory.CreateDirectory(studentsPath);
 
-                
+
             using var br =
                 new BinaryReader(
                     File.Open($"{parentPath}/_Students.dat",
                         FileMode.Open));
-            while (!br.EOF())
+            while (br.PeekChar() != -1)
             {
                 stName = br.ReadString();
                 stGroup = br.ReadString();
@@ -66,10 +57,19 @@ namespace Task4
 
         private static void CreateFiles(string studentsPath, string stGroup, string name, DateTime dateOfBirth)
         {
-            using var stream = new FileStream($"{studentsPath}/{stGroup}.txt", FileMode.OpenOrCreate, FileAccess.Write,
-                FileShare.Write);
-            using var sw = File.AppendText($"{studentsPath}/{stGroup}.txt");
-            sw.WriteLine($"Имя: {name}, дата рождения: {dateOfBirth.Date:d} ");
+            try
+            {
+                using var stream = new FileStream($"{studentsPath}/{stGroup}.txt", FileMode.OpenOrCreate,
+                    FileAccess.Write,
+                    FileShare.Write);
+                using var sw = File.AppendText($"{studentsPath}/{stGroup}.txt");
+                sw.WriteLine($"Имя: {name}, дата рождения: {dateOfBirth.Date:d} ");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Не могу создать запись в файле: " + e.Message);
+                throw;
+            }
         }
 
         private static void MakeBinaryFile(string pathTxt, string path)

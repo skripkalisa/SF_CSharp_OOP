@@ -5,9 +5,9 @@ namespace Task4
 {
     public class Student
     {
-        private string Name;
-        private string Group;
-        private DateTime DateOfBirth;
+        private readonly DateTime DateOfBirth;
+        private readonly string Group;
+        private readonly string Name;
 
         public Student(string name, string group, DateTime dateOfBirth)
         {
@@ -19,7 +19,7 @@ namespace Task4
         public void AddStudent(string path)
         {
             using var fileStream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
-            using BinaryWriter wr = new BinaryWriter(fileStream);
+            using var wr = new BinaryWriter(fileStream);
             wr.Write(Name);
             wr.Write(Group);
             wr.Write(DateOfBirth.ToBinary());

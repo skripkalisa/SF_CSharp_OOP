@@ -7,7 +7,7 @@ namespace Task1
     {
         private static void Main(string[] args)
         {
-            DirectoryInfo di = new DirectoryInfo("./");
+            var di = new DirectoryInfo("./");
             var userPath = di.Parent?.Parent?.Parent?.FullName + "/temp";
             var span = 5;
             Console.WriteLine("Программа удалит файлы и каталоги, " +
@@ -23,7 +23,7 @@ namespace Task1
             span = GetInterval(span);
 
             DeleteRecursively(userPath, span);
-            if(!Directory.Exists(userPath))
+            if (!Directory.Exists(userPath))
                 Console.WriteLine("Данные успешно удалены.");
         }
 
@@ -81,6 +81,7 @@ namespace Task1
                         // throw;
                     }
             }
+
             try
             {
                 di.Delete();
